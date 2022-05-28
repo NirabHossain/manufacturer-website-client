@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 
 const SingleTool = () => {
     const {id} = useParams();
-    
-    // এইখানে ফেচ করে রেখে দিবো সব
+
+    // এইখানে ফেচ করে সব কিছু দেখায়ে দিতে হবে।
 
     return (
         <div className="card w-96 bg-base-100 shadow-xl">
