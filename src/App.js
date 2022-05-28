@@ -1,12 +1,18 @@
+import { Routes } from 'react-router-dom';
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h2>This isd irectory</h2>
+    <div className="">
+      <header className="">
+        <h2>Header</h2>
+        <h2>Header ok</h2>
       </header>
+      <Routes>
+        
+      </Routes>
     </div>
+
   );
 }
 
