@@ -1,15 +1,19 @@
 import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import CustomLink from '../../CustomLink/CustomLink';
+import auth from '../../firebase.init';
 
 
 const Navbar = () => {
+    const [user, loading, error] = useAuthState(auth);
+    console.log(user);
     const menuItems = <>        
         <li><CustomLink to="/">Home</CustomLink></li>
         <li><CustomLink to="/about">About</CustomLink></li>
         <li><CustomLink to="/orders">My Orders</CustomLink></li>
         <li><CustomLink to="/review">Review</CustomLink></li>
         <li><CustomLink to="/contact">Contact</CustomLink></li>
-        <li><CustomLink to="/login">Login</CustomLink></li>
+        <li>{user?<button className='btn btn-ghost'>Sign Out</button>: <CustomLink to="/login">Login</CustomLink>}</li>
     </>
     return (
         <div>

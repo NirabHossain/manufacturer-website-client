@@ -10,6 +10,7 @@ import Navbar from './Pages/Shared/Navbar';
 import NotFound from './Pages/Shared/NotFound';
 import Footer from './Pages/Shared/Footer'
 import MyOrders from './Pages/MyOrders/MyOrders';
+import SignUp from './Pages/Login/SignUp';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<SignUp />} />
         <Route path='/orders' element={<MyOrders />} />
         <Route path='/purchase/:id' element={
             <SingleTool />
