@@ -4,7 +4,7 @@ import Service from './Service';
 const Services = () => {
     const [tools, setTools] = useState([]);
     useEffect(()=>{
-        fetch("http://localhost:5000/tools").then(res=>res.json()).then(data=>setTools(data));
+        fetch("https://dry-plateau-54628.herokuapp.com/tools").then(res=>res.json()).then(data=>setTools(data));
     },[])
     return (
         <div className='my-28'>
