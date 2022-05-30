@@ -26,7 +26,7 @@ const SingleTool = () => {
                     <div className="badge badge-outline">Price per unit: {tool?.price}</div>
                     <label htmlFor="cart-modal" className="btn  btn-primary text-white font-bold bg-gradient-to-r from-secondary to-primary my-3 modal-button" onClick={()=>setModalInfo(tool) }>Add to Cart</label>
                 </div>
-                {modalInfo && <CartModal tool={tool}/>}
+                {modalInfo && <CartModal tool={modalInfo} setModalInfo={setModalInfo}/>}
             </div>
         </div>
     );

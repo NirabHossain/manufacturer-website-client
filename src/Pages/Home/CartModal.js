@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import auth from '../../firebase.init';
 // import btnClass from "./../Shared/ButtonClass";
 
-const CartModal = ({ tool }) => {
+const CartModal = ({ tool, setModalInfo }) => {
 
     const [user] = useAuthState(auth);
     const [userProduct, setUserProduct] = useState({});
@@ -12,20 +12,28 @@ const CartModal = ({ tool }) => {
         e.preventDefault();
         const url = `https://dry-plateau-54628.herokuapp.com/products`;
 
+        const cartId = tool._id;
         const name = e.target.name.value;
         const email = e.target.email.value;
         const address = e.target.address.value;
-        const quantity = e.target.quantity.value;
+        const quantity = parseInt(e.target.quantity.value);
         const phone = e.target.phone.value;
 
-        const newProduct = {name, email, address, quantity, phone};
-        setUserProduct(newProduct);
+        const newProduct = {cartId, name, email, address, quantity, phone};
+        setUserProduct(newProduct, userProduct);
+
         fetch(url,{
             method:'POST',
             headers:{"content-type":"application/json"},
             body:JSON.stringify(newProduct)
         }).then(res=>res.json()).then(inf=>{
-            if(inf.insertedId)toast("Successfully Added");
+            if(inf.success){
+                toast.success("Successfully Added the product");
+            }
+            else{
+                toast.success("Already added the product")
+            }
+            setModalInfo(null);
         })
     }
     return (
@@ -48,10 +56,7 @@ const CartModal = ({ tool }) => {
                         <input name='phone' type="text" placeholder="Your Phone Number" className="input input-bordered w-full max-w-xs" />
                         <input name='submit' type="submit" value="Submit"  className={`bg-gradient-to-r from-secondary to-primary w-full max-w-xs btn-md btn-circle `}/>
                     </form>
-{/* 
-                    <div className="modal-action">
-                        <label htmlFor="cart-modal" className={btnClass}>Place Order</label>
-                    </div> */}
+
                 </div>
             </div>
         </div >
