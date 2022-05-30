@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import auth from '../../firebase.init';
+import Loading from '../Shared/Loading';
+import Row from '../Shared/Row';
 
 const MyOrders = () => {
+    const [products, setProducts] = useState([]);
+    const [user, loading] = useAuthState(auth);
+    useEffect(() => {
+        fetch(`https://dry-plateau-54628.herokuapp.com/products?email=${user.email}`).then(res => res.json()).then(data => setProducts(data));
+    }, [user.email])
+    if (loading) return <Loading />
+
+    console.log(products);
+
     return (
         <div>
-            <div className="hero min-h-screen bg-base-200">
-                <div className="hero-content flex-col lg:flex-row-reverse">
-                    <img src="https://api.lorem.space/image/movie?w=260&h=400" className="max-w-sm rounded-lg shadow-2xl" alt=' '/>
-                    <div>
-                        <h1 className="text-5xl font-bold">Welcome to your order page</h1>
-                        <p className="py-6">Here are the orders you are asking for</p>
-                        {/* <button className="btn btn-primary">Get Started</button> */}
-                    </div>
-                </div>
+            <h2 className='text-2xl'>My Orders</h2>
+            <div className="overflow-x-auto">
+                <table className="table w-full">
+                    {/* <!-- head --> */}
+                    <thead>
+                        <tr>
+                            <th>Product Name</th>
+                            <th>Quantity</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                        {
+                            products.map(product=><Row product={product}></Row>)
+                        }
+                    <tbody>
+
+                    </tbody>
+                </table>
             </div>
         </div>
     );

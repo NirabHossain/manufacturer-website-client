@@ -6,12 +6,17 @@ import { useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth
 import {useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import Loading from '../Shared/Loading';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import useToken from '../../hooks/useToken';
 
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] = useSignInWithGoogle(auth);
     const [createUserWithEmailAndPassword, userEmail, loading, errorEmail] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+
+    const [token] = useToken(userEmail||userGoogle);
+
+
     const location = useLocation();
     let from = location.state?.from?.pathname || "/";
     const navigate =  useNavigate();
@@ -24,7 +29,6 @@ const SignUp = () => {
         console.log(data);
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({displayName:data.name})
-        navigate(from, { replace: true });
     }
 
     if (loadingGoogle || loading ||updating) {
@@ -32,6 +36,10 @@ const SignUp = () => {
     }
     if (errorEmail || errorGoogle || updateError) {
         signInError = <p className='text-neutral'>{errorGoogle?.message || errorEmail?.message || updateError?.message}</p>
+    }
+    if(token){
+        if(from)navigate(from, { replace: true });
+        else navigate('/');
     }
 
 

@@ -6,6 +6,7 @@ import auth from '../../firebase.init';
 
 const CartModal = ({ tool, setModalInfo }) => {
 
+    
     const [user] = useAuthState(auth);
     const [userProduct, setUserProduct] = useState({});
     const handleSubmit= e =>{
@@ -28,12 +29,11 @@ const CartModal = ({ tool, setModalInfo }) => {
             headers:{"content-type":"application/json"},
             body:JSON.stringify(newProduct)
         }).then(res=>res.json()).then(inf=>{
-            console.log(inf);
             if(inf.success){
-                toast("Successfully Added the product");
+                toast.success("Successfully Added the product");
             }
             else{
-                toast("Already added to the product")
+                toast.warning("The product is Already added")
             }
             setModalInfo(null);
         })
@@ -53,7 +53,7 @@ const CartModal = ({ tool, setModalInfo }) => {
                         <input name='name' type="text" placeholder="Name" disabled value={user?.displayName} className="input input-bordered w-full max-w-xs" />
                         <input name='email' type="text" placeholder="Name" disabled value={user?.email} className="input input-bordered w-full max-w-xs" />
 
-                        <input name='quantity' type="number" placeholder="Quantity" className="input input-bordered w-full max-w-xs" defaultValue={tool?.minimum_order}/>
+                        <input name='quantity'  type="number"  placeholder="Quantity" className="input input-bordered w-full max-w-xs" step="10"  min={tool?.minimum_order} max={tool?.quantity} defaultValue={tool?.minimum_order}/>
                         <input name='address' type="text" placeholder="Your address" className="input input-bordered w-full max-w-xs" />
                         <input name='phone' type="text" placeholder="Your Phone Number" className="input input-bordered w-full max-w-xs" />
                         <input name='submit' type="submit" value="Submit"  className={`bg-gradient-to-r from-secondary to-primary w-full max-w-xs btn-md btn-circle `}/>
