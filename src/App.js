@@ -11,6 +11,7 @@ import NotFound from './Pages/Shared/NotFound';
 import Footer from './Pages/Shared/Footer'
 import MyOrders from './Pages/MyOrders/MyOrders';
 import SignUp from './Pages/Login/SignUp';
+import RequireAuth from './Pages/RequireAuth/RequireAuth';
 
 function App() {
   return (
@@ -21,9 +22,10 @@ function App() {
         <Route path='/about' element={<About />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/orders' element={<MyOrders />} />
+        
+        <Route path='/orders' element={<RequireAuth><MyOrders /></RequireAuth>} />
         <Route path='/purchase/:id' element={
-            <SingleTool />
+            <RequireAuth><SingleTool /></RequireAuth>
         }></Route>
 
 

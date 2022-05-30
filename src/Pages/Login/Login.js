@@ -5,24 +5,24 @@ import { useForm } from "react-hook-form";
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import Loading from '../Shared/Loading';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] = useSignInWithGoogle(auth);
     const [signInWithEmailAndPassword, userEmail, loading, errorEmail] = useSignInWithEmailAndPassword(auth);
 
     let signInError = "";
-
+    let from = location.state?.from?.pathname || "/";
 
 
     const onSubmit = data => {
         console.log(data);
         signInWithEmailAndPassword(data.email, data.password);
     }
-    if (userGoogle) console.log(userGoogle.user.displayName);
-    if (userEmail) console.log(userEmail.user.displayName);
 
     if (loadingGoogle || loading) {
         return <Loading />
@@ -31,6 +31,7 @@ const Login = () => {
         signInError = <p className='text-neutral'>{errorGoogle?.message || errorEmail.message}</p>
     }
 
+    if(userGoogle || userEmail)navigate(from, { replace: true });
 
 
 

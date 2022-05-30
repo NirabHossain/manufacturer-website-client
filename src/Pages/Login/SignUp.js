@@ -5,25 +5,26 @@ import { useForm } from "react-hook-form";
 import { useSignInWithGoogle, useUpdateProfile } from 'react-firebase-hooks/auth';
 import {useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import Loading from '../Shared/Loading';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const { register, formState: { errors }, handleSubmit } = useForm();
     const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] = useSignInWithGoogle(auth);
     const [createUserWithEmailAndPassword, userEmail, loading, errorEmail] = useCreateUserWithEmailAndPassword(auth);
     const [updateProfile, updating, updateError] = useUpdateProfile(auth);
-
+    const location = useLocation();
+    let from = location.state?.from?.pathname || "/";
     const navigate =  useNavigate();
 
     let signInError = "";
-
+    console.log(userGoogle, userEmail);
 
 
     const onSubmit = async data => {
         console.log(data);
         await createUserWithEmailAndPassword(data.email, data.password);
         await updateProfile({displayName:data.name})
-        navigate("/");
+        navigate(from, { replace: true });
     }
 
     if (loadingGoogle || loading ||updating) {
