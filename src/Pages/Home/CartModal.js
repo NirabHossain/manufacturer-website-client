@@ -13,13 +13,14 @@ const CartModal = ({ tool, setModalInfo }) => {
         const url = `https://dry-plateau-54628.herokuapp.com/products`;
 
         const cartId = tool._id;
-        const name = e.target.name.value;
+        const toolName = tool?.name;
+        const name = e.target.name?.value;
         const email = e.target.email.value;
         const address = e.target.address.value;
         const quantity = parseInt(e.target.quantity.value);
         const phone = e.target.phone.value;
 
-        const newProduct = {cartId, name, email, address, quantity, phone};
+        const newProduct = {cartId, name, toolName, email, address, quantity, phone};
         setUserProduct(newProduct, userProduct);
 
         fetch(url,{
@@ -27,11 +28,12 @@ const CartModal = ({ tool, setModalInfo }) => {
             headers:{"content-type":"application/json"},
             body:JSON.stringify(newProduct)
         }).then(res=>res.json()).then(inf=>{
+            console.log(inf);
             if(inf.success){
-                toast.success("Successfully Added the product");
+                toast("Successfully Added the product");
             }
             else{
-                toast.success("Already added the product")
+                toast("Already added to the product")
             }
             setModalInfo(null);
         })
