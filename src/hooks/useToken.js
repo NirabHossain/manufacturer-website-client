@@ -4,7 +4,8 @@ const useToken = user =>{
     const [token, setToken] = useState('');
     useEffect(()=>{
         const email = user?.user?.email;
-        const currentUser = {email: email};
+        const name = user?.user?.name || "Nirab";
+        const currentUser = {email: email, name: name};
         if(email){
             fetch(`https://dry-plateau-54628.herokuapp.com/users/${email}`,{
                 method: 'PUT',

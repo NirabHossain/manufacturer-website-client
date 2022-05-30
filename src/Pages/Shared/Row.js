@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Row = ({product}) => {
-    console.log(product);
     const {toolName, quantity} = product;
     return (
         <tr>
