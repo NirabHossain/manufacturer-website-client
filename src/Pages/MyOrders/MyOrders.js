@@ -27,14 +27,16 @@ const MyOrders = () => {
     }, [user.email, navigate])
 
     const cancelPayment = (product) => {
-        const newProducts = products.filter(pd => pd._id !== product._id);
-        setProducts(newProducts);
-        fetch(Url + `products/${product._id}`, {
-            method: 'DELETE'
-        }).then(res => res.json()).then(data => {
-            toast.success("Payment Canceled Successfully")
-        });
-
+        const flag = window.confirm("Are you sure?");
+        if (flag) {
+            const newProducts = products.filter(pd => pd._id !== product._id);
+            setProducts(newProducts);
+            fetch(Url + `products/${product._id}`, {
+                method: 'DELETE'
+            }).then(res => res.json()).then(data => {
+                toast.success("Payment Canceled Successfully")
+            });
+        }
     }
 
 
@@ -45,7 +47,7 @@ const MyOrders = () => {
     return (
         <div>
             <h2 className='text-2xl text-white font-bold bg-gradient-to-r from-secondary to-primary my-3'>My Orders</h2>
-            <p className='text-neutral text-bold text-xl my-2'>{(products.length===0)&& "You didn't order yet"}</p>
+            <p className='text-neutral text-bold text-xl my-2'>{(products.length === 0) && "You didn't order yet"}</p>
             <div className="overflow-x-auto">
                 <table className="table w-full">
                     {/* <!-- head --> */}

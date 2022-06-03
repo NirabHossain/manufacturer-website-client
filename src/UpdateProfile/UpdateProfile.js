@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { toast } from 'react-toastify';
-import Url from '../Pages/Shared/Url';
 import auth from '../firebase.init';
 
-const UpdateProfile = ({setModalInfo, newUser, setNewUser, handleSubmit}) => {
+const UpdateProfile = ({ handleSubmit}) => {
     const [user] = useAuthState(auth);
 
     return (
