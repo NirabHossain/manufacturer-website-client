@@ -25,13 +25,13 @@ const MyReview = () => {
             headers: { "content-type": "application/json" },
             body: JSON.stringify(newReview)
         }).then(res => res.json()).then(inf => {
+            e.target.reset();
             if (inf.success) {
                 toast.success("Review Added Successfully");
             }
             else{
                 toast.warning("Review already added");
             }
-            e.target.reset();
         })
     }
 
@@ -44,7 +44,7 @@ const MyReview = () => {
                     <input name='email' type="email" placeholder="Email" disabled value={user?.email} className="input input-bordered w-full max-w-xs" />
                     <input name='rating' type="number" placeholder="rating" defaultValue={5} min="0" max="5" step="0.5" className="input input-bordered w-full max-w-xs" />
 
-                    <textarea name='review' type="text" defaultValue="Very Good Product! Trustworthy" placeholder="Your address" className="input input-bordered w-full max-w-xs" />
+                    <textarea name='review' type="text" defaultValue="" placeholder="Your Review" className="input input-bordered w-full max-w-xs" />
 
                     <input name='submit' type="submit" value="Submit" className={`cursor-pointer bg-gradient-to-r from-secondary to-primary w-full max-w-xs btn-md btn-circle `} />
                 </form>
