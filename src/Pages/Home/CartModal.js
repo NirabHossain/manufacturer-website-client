@@ -2,16 +2,14 @@ import React, { useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { toast } from 'react-toastify';
 import auth from '../../firebase.init';
-// import btnClass from "./../Shared/ButtonClass";
+import Url from '../Shared/Url';
 
 const CartModal = ({ tool, setModalInfo }) => {
-
-    
     const [user] = useAuthState(auth);
     const [userProduct, setUserProduct] = useState({});
     const handleSubmit= e =>{
         e.preventDefault();
-        const url = `https://dry-plateau-54628.herokuapp.com/products`;
+        const url = Url+`products`;
 
         const cartId = tool._id;
         const toolName = tool?.name;
@@ -30,7 +28,7 @@ const CartModal = ({ tool, setModalInfo }) => {
             body:JSON.stringify(newProduct)
         }).then(res=>res.json()).then(inf=>{
             if(inf.success){
-                toast.success("Successfully Added the product");
+                toast.success("Product Successfully Added");
             }
             else{
                 toast.warning("The product is Already added")
@@ -56,7 +54,7 @@ const CartModal = ({ tool, setModalInfo }) => {
                         <input name='quantity'  type="number"  placeholder="Quantity" className="input input-bordered w-full max-w-xs" step="10"  min={tool?.minimum_order} max={tool?.quantity} defaultValue={tool?.minimum_order}/>
                         <input name='address' type="text" placeholder="Your address" className="input input-bordered w-full max-w-xs" />
                         <input name='phone' type="text" placeholder="Your Phone Number" className="input input-bordered w-full max-w-xs" />
-                        <input name='submit' type="submit" value="Submit"  className={`bg-gradient-to-r from-secondary to-primary w-full max-w-xs btn-md btn-circle `}/>
+                        <input name='submit' type="submit" value="Submit"  className={`cursor-pointer bg-gradient-to-r from-secondary to-primary w-full max-w-xs btn-md btn-circle `}/>
                     </form>
 
                 </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import Url from '../Shared/Url';
 import CartModal from './CartModal';
 // import PrimaryButton from '../Shared/PrimaryButton';
 
@@ -9,7 +10,7 @@ const SingleTool = () => {
     const [modalInfo, setModalInfo] = useState(null);
 
     useEffect(()=>{
-        fetch(`https://dry-plateau-54628.herokuapp.com/tools/${id}`).then(res=>res.json()).then(data=>setTool(data));
+        fetch(Url+`tools/${id}`).then(res=>res.json()).then(data=>setTool(data));
     },[id])
 
     return (

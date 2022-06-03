@@ -1,10 +1,13 @@
 import React from 'react';
 import { toast } from 'react-toastify';
+import Url from '../Shared/Url';
 
 const UserRow = ({ user, refetch }) => {
     const { name, email, role } = user;
+
     const makeAdmin = () => {
-        fetch(`https://dry-plateau-54628.herokuapp.com/users/admin/${email}`, {
+        // Admin role put method
+        fetch(Url+`admins/${email}`, {
             method: 'PUT',
             headers: { 'content-type': 'application/json', authorization: `Bearer ${localStorage.getItem('accessToken')}` },
         }).then(res => {
@@ -23,7 +26,6 @@ const UserRow = ({ user, refetch }) => {
             <th>{name}</th>
             <td>{email}</td>
             <td>{role || <button onClick={makeAdmin} className="btn btn-accent">Make Admin</button>}</td>
-            <td><button className="btn btn-accent">Remove Admin</button></td>
         </tr>
     );
 };

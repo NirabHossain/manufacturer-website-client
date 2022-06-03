@@ -1,17 +1,20 @@
 import { useEffect, useState } from "react"
+import { useAuthState } from "react-firebase-hooks/auth";
+import auth from "../firebase.init";
+import Url from "../Pages/Shared/Url";
 
-const useAdmin = user =>{
+const useAdmin = () =>{
+    const user = useAuthState(auth);
     const [admin, setAdmin] = useState(false);
     useEffect(()=>{
-        const email = user?.user?.email;
+        const email = user?.email;
         if(email){
-            fetch(`https://dry-plateau-54628.herokuapp.com/admin/${email}`,{
+            fetch(Url+`admins?email=${email}`,{
                 method: 'GET',
                 headers:{'content-type': 'application/json', authorization: `Bearer ${localStorage.getItem('accessToken')}`},
             }).then(res => res.json()).then(data => {
-                setAdmin(data.admin);
+                setAdmin(data[0]?.role==='admin');
             });
-
         }
     },[user])
     return [admin];

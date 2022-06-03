@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link, Outlet } from 'react-router-dom';
 import auth from '../../firebase.init';
-import useAdmin from '../../hooks/useAdmin';
+import Url from './../Shared/Url';
 
 const Dashboard = () => {
     const [user] = useAuthState(auth);
-    // const [admin] = useAdmin();
+    const [admin, setAdmin] = useState(false);
+    useEffect(() => {
+        const email = user?.email;
+        if (email) {
+            fetch(Url + `admins?email=${email}`, {
+                method: 'GET',
+                headers: { 'content-type': 'application/json', authorization: `Bearer ${localStorage.getItem('accessToken')}` },
+            }).then(res => res.json()).then(data => {
+                setAdmin(data[0]?.role === 'admin');
+            });
+        }
+    }, [user])
+
+
     return (
         <div className="drawer drawer-mobile">
 
@@ -21,10 +34,12 @@ const Dashboard = () => {
             <div className="drawer-side">
                 <label htmlFor="dashboard-button" className="drawer-overlay"></label>
                 <ul className="menu p-4 overflow-y-auto w-48 bg-base-100 text-base-content">
-                    <li><Link to="/dashboard">My Orders</Link></li>
-                    <li><Link to="/dashboard/profile">My Profile</Link></li>
-                    <li><Link to="/dashboard/review">Reviews</Link></li>
-                    <li>{<Link to="/dashboard/users">All Users</Link>}</li>
+                    <li><Link to="/dashboard">My Profile</Link></li>
+                    {!admin && <li><Link to="/dashboard/orders">My Orders</Link></li>}
+                    {!admin && <li> <Link to="/dashboard/review">Reviews</Link></li>}
+                    { admin && <li><Link to="/dashboard/users">All Users</Link></li>}
+                    { admin && <li><Link to="/dashboard/allOrders">All Orders</Link></li>}
+                    { admin && <li><Link to="/dashboard/addProduct">Add A Tool</Link></li>}
                 </ul>
 
             </div>

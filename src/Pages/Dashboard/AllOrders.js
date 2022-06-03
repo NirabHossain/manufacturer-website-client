@@ -2,18 +2,17 @@ import { signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 import auth from '../../firebase.init';
 import Loading from '../Shared/Loading';
-import Row from '../Shared/Row';
 import Url from '../Shared/Url';
+import AdminRow from './AdminRow';
 
-const MyOrders = () => {
+const AllOrders = () => {
     const [products, setProducts] = useState([]);
     const [user, loading] = useAuthState(auth);
     const navigate = useNavigate();
     useEffect(() => {
-        fetch(Url + `products?email=${user.email}`, {
+        fetch(Url + `products`, {
             method: 'GET',
             headers: { 'authorization': `Bearer ${localStorage.getItem('accessToken')}` }
         }).then(res => {
@@ -25,41 +24,27 @@ const MyOrders = () => {
             return res.json()
         }).then(data => setProducts(data));
     }, [user.email, navigate])
-
-    const cancelPayment = (product) => {
-        const newProducts = products.filter(pd => pd._id !== product._id);
-        setProducts(newProducts);
-        fetch(Url + `products/${product._id}`, {
-            method: 'DELETE'
-        }).then(res => res.json()).then(data => {
-            toast.success("Payment Canceled Successfully")
-        });
-
-    }
-
-
-
     if (loading) return <Loading />
 
 
     return (
         <div>
-            <h2 className='text-2xl text-white font-bold bg-gradient-to-r from-secondary to-primary my-3'>My Orders</h2>
-            <p className='text-neutral text-bold text-xl my-2'>{(products.length===0)&& "You didn't order yet"}</p>
+            <h2 className='text-2xl text-white font-bold bg-gradient-to-r from-secondary to-primary my-3'>All Orders</h2>
+            <h6 className='text-xl'>Total orders:{products.length}</h6>
             <div className="overflow-x-auto">
                 <table className="table w-full">
-                    {/* <!-- head --> */}
                     <thead>
                         <tr>
                             <th>Product Name</th>
                             <th>Quantity</th>
+                            <th>User Email</th>
                             <th>Status</th>
-                            <th>Make Payment</th>
+                            <th>Update Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            products.map(product => <Row key={product._id} product={product} user={user} cancelPayment={cancelPayment}></Row>)
+                            products.map(product => <AdminRow key={product._id} product={product}></AdminRow>)
                         }
 
                     </tbody>
@@ -69,4 +54,4 @@ const MyOrders = () => {
     );
 };
 
-export default MyOrders;
+export default AllOrders;

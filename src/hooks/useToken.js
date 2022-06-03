@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import Url from "../Pages/Shared/Url";
 
 const useToken = user =>{
     const [token, setToken] = useState('');
@@ -7,7 +8,7 @@ const useToken = user =>{
         const name = user?.user?.name || "Nirab";
         const currentUser = {email: email, name: name};
         if(email){
-            fetch(`https://dry-plateau-54628.herokuapp.com/users/${email}`,{
+            fetch(Url+`users/${email}`,{
                 method: 'PUT',
                 headers:{'content-type': 'application/json'},
                 body:JSON.stringify(currentUser)

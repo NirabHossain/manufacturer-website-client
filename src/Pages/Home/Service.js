@@ -23,11 +23,11 @@ const Service = ({ service }) => {
                 </h2>
                 <p>{service?.description}</p>
                 <div className="card-actions justify-between">
+                    <div className="badge badge-outline"> Minimum Order: {service?.minimum_order}</div>
+                    <div className="badge badge-outline">Per Unit Price ${service?.price}</div>
                     {
                         service?.quantity < 1000 && <div className='text-neutral'>Few left! Hurry up!!</div>
                     }
-                    <div className="badge badge-outline"> Minimum Order: {service?.minimum_order}</div>
-                    <div className="badge badge-outline">Per Unit Price ${service?.price}</div>
                 </div>
                 <div className="card-actions justify-center">
                     <button className="btn btn-primary px-20" onClick={() => navigateToSingleTool(_id)}>Purchase Now</button>

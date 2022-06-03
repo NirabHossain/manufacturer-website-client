@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import Url from '../Shared/Url';
 // import { useQuery } from 'react-query';
 import Service from './Service';
 
 const Services = () => {
     const [tools, setTools] = useState([]);
     // const { isLoading, error, data, refetch } = useQuery('tools', () =>
-    //     fetch("https://dry-plateau-54628.herokuapp.com/tools").then(res => res.json())
+    //     fetch(Url+"/tools").then(res => res.json())
     // )
     useEffect(() => {
-        fetch("https://dry-plateau-54628.herokuapp.com/tools").then(res => res.json()).then(data => setTools(data));
+        fetch(Url+"tools").then(res => res.json()).then(data => setTools(data));
     }, [])
+    if(tools.length>6) setTools(tools.slice(0,6));
+
     return (
         <div className='my-28'>
             <div className='text-center'>

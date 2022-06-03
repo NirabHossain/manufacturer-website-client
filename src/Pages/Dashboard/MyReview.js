@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from 'react';
+import Url from '../Shared/Url';
 import SingleReview from './../Home/SingleReview';
 
 const MyReview = () => {
     const [reviews, setReviews] = useState([]);
     useEffect(() => {
-        fetch("https://dry-plateau-54628.herokuapp.com/reviews").then(res => res.json()).then(data => setReviews(data));
+        fetch(Url+"reviews").then(res => res.json()).then(data => setReviews(data));
     }, [])
     return (
         <section className='my-28'>

@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import Url from '../Shared/Url';
 import quote from './../../assets/icons/quote.svg';
 import SingleReview from './SingleReview';
 
 const Review = () => {
     const [reviews, setReviews] = useState([]);
     useEffect(() => {
-        fetch("https://dry-plateau-54628.herokuapp.com/reviews").then(res => res.json()).then(data => setReviews(data));
+        fetch(Url+"reviews").then(res => res.json()).then(data => setReviews(data));
     }, [])
+    // if(reviews.length>6)setReviews(reviews.slice(0,3));
+
     return (
         <section className='my-28'>
             <div className='flex justify-between items-center'>
